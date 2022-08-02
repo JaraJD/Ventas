@@ -9,6 +9,7 @@ import com.mycompany.sistemaventas.models.Motocicletas;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,12 +45,12 @@ public class VentasDAO {
         return conexion;
     }
 
-    public void crearBicicleta(Bicicletas bicicleta) {
+    public void crearBicicleta(Bicicletas bicicleta){
 
         try {
             Connection conexion = conectar();
 
-            String sql = "INSERT INTO `bicicletas` (`bicicleta_id`, `bicicleta_fabricante`, `precio_unitario`, `año_construccion`) VALUES ('"
+            String sql = "INSERT INTO `bicicletas` ( `bicicleta_id`,`bicicleta_fabricante`, `precio_unitario`, `año_construccion`) VALUES ('"
                     + bicicleta.getId() + "', '"
                     + bicicleta.getFabricante() + "', '"
                     + bicicleta.getPrecioUnitario() + "', '"
@@ -57,9 +58,10 @@ public class VentasDAO {
             Statement statement = conexion.createStatement();
             statement.execute(sql);
 
+
         } catch (Exception ex) {
             Logger.getLogger(VentasDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
 
     }
 
@@ -83,91 +85,62 @@ public class VentasDAO {
 
     }
 
-//    public List<NaveDTO> listar() {
-//
-//        List<NaveDTO> listado = new ArrayList<>();
-//
-//        try {
-//            Connection conexion = conectar();
-//            String sql = "SELECT * FROM `nave`;";
-//
-//            Statement statement = conexion.createStatement();
-//            ResultSet resultado = statement.executeQuery(sql);
-//
-//            while (resultado.next()) {
-//
-//                NaveDTO nave = new NaveDTO();
-//                nave.setId(resultado.getString("id"));
-//                nave.setTipoNave(resultado.getString("tipo_nave"));
-//                nave.setNombre(resultado.getString("nombre"));
-//                nave.setPeso(resultado.getString("peso"));
-//                nave.setCombustible(resultado.getString("combustible"));
-//                nave.setEmpuje(resultado.getString("empuje"));
-//                nave.setAltura(resultado.getString("altura"));
-//                nave.setPotencia(resultado.getString("potencia"));
-//                nave.setCarga(resultado.getString("carga"));
-//                nave.setVelocidad(resultado.getString("velocidad"));
-//                nave.setActivo(resultado.getString("activo"));
-//                nave.setTarea(resultado.getString("tarea"));
-//                nave.setCapacidad(resultado.getString("capacidad"));
-//                listado.add(nave);
-//            }
-//
-//        } catch (Exception ex) {
-//            Logger.getLogger(VentasDAO.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return listado;
-//    }
-//
-//    public List<NaveDTO> buscarAvanzado(String propiedad, String valor) {
-//
-//        List<NaveDTO> listado = new ArrayList<>();
-//
-//        try {
-//            Connection conexion = conectar();
-//            String sql = "SELECT * FROM `nave` WHERE " + propiedad + " = '" + valor + "'";
-//
-//            Statement statement = conexion.createStatement();
-//            ResultSet resultado = statement.executeQuery(sql);
-//
-//            while (resultado.next()) {
-//
-//                NaveDTO nave = new NaveDTO();
-//                nave.setId(resultado.getString("id"));
-//                nave.setTipoNave(resultado.getString("tipo_nave"));
-//                nave.setNombre(resultado.getString("nombre"));
-//                nave.setPeso(resultado.getString("peso"));
-//                nave.setCombustible(resultado.getString("combustible"));
-//                nave.setEmpuje(resultado.getString("empuje"));
-//                nave.setAltura(resultado.getString("altura"));
-//                nave.setPotencia(resultado.getString("potencia"));
-//                nave.setCarga(resultado.getString("carga"));
-//                nave.setVelocidad(resultado.getString("velocidad"));
-//                nave.setActivo(resultado.getString("activo"));
-//                nave.setTarea(resultado.getString("tarea"));
-//                nave.setCapacidad(resultado.getString("capacidad"));
-//                listado.add(nave);
-//            }
-//
-//        } catch (Exception ex) {
-//            Logger.getLogger(VentasDAO.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return listado;
-//    }
-//
-//    public void eliminar(String tipo) {
-//
-//        try {
-//            Connection conexion = conectar();
-//
-//            String sql = "DELETE FROM `nave` WHERE `nave`.`tipo_nave` = '" + tipo + "'";
-//
-//            Statement statement = conexion.createStatement();
-//            statement.execute(sql);
-//
-//        } catch (Exception ex) {
-//            Logger.getLogger(VentasDAO.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//
-//    }
+    public List<Bicicletas> listar() {
+
+        List<Bicicletas> listado = new ArrayList<>();
+
+        try {
+            Connection conexion = conectar();
+            String sql = "SELECT * FROM `bicicletas`;";
+
+            Statement statement = conexion.createStatement();
+            ResultSet resultado = statement.executeQuery(sql);
+
+            while (resultado.next()) {
+
+                Bicicletas bicicleta = new Bicicletas();
+                bicicleta.setId(resultado.getInt("bicicleta_id"));
+                bicicleta.setFabricante(resultado.getString("bicicleta_fabricante"));
+                bicicleta.setPrecioUnitario(resultado.getInt("precio_unitario"));
+                bicicleta.setAñoConstruccion(resultado.getInt("año_construccion"));
+                listado.add(bicicleta);
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(VentasDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listado;
+    }
+    
+    public void actualizar(Bicicletas bicicleta) {
+    
+        try {
+            Connection conexion = conectar();
+            
+            String sql = "UPDATE `bicicletas` SET `precio_unitario` = '"+ bicicleta.getPrecioUnitario() +"' WHERE `bicicletas`.`bicicleta_id` = "+ bicicleta.getId() +";";
+            Statement statement = conexion.createStatement();
+            statement.execute(sql);
+            
+        } catch (Exception ex) {
+            Logger.getLogger(VentasDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+
+    public void eliminar(Bicicletas bicicleta) {
+
+        try {
+            Connection conexion = conectar();
+
+            String sql = "DELETE FROM `bicicletas` WHERE `bicicletas`.`bicicleta_id` = " + bicicleta.getId() + ";";
+
+            Statement statement = conexion.createStatement();
+            statement.execute(sql);
+
+        } catch (Exception ex) {
+            Logger.getLogger(VentasDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 }
