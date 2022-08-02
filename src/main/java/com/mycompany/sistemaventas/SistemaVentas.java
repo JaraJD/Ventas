@@ -4,6 +4,8 @@
  */
 package com.mycompany.sistemaventas;
 
+import com.mycompany.sistemaventas.dao.VentasDAO;
+import com.mycompany.sistemaventas.models.Bicicletas;
 import java.util.Scanner;
 
 /**
@@ -47,15 +49,35 @@ public class SistemaVentas {
                 System.out.println("----------------------------------------------\n");
                 System.out.print(">> ");
                 opcion = Integer.parseInt(sc.nextLine());
-                
-                if(opcion == 1){
-                    System.out.println("crea bici");
-                    //crearBicicleta();
+
+                if (opcion == 1) {
+                    agregar(opcion);
                 }
 
             }
         } while (opcion > 0 && opcion < 5);
 
+    }
+
+    private static void agregar(int op) {
+        if (op == 1) {
+            Scanner sc = new Scanner(System.in);
+            VentasDAO dao = new VentasDAO();
+            Bicicletas bicileta = new Bicicletas();
+            System.out.println("----------------------------------------------\n");
+            System.out.println("***Ingreso de Datos***");
+            System.out.println("Ingrese id de la bicicleta: ");
+            bicileta.setId(Integer.parseInt(sc.nextLine()));
+            System.out.println("Ingrese fabricante de la bicicleta: ");
+            bicileta.setFabricante(sc.nextLine());
+            System.out.println("Ingrese precio de la bicicleta: ");
+            bicileta.setPrecioUnitario(Integer.parseInt(sc.nextLine()));
+            System.out.println("Ingrese año de construccion de la bicicleta: ");
+            bicileta.setAñoConstruccion(Integer.parseInt(sc.nextLine()));
+            dao.crearBicicleta(bicileta);
+        } else if (op == 2) {
+
+        }
     }
 
     public static void main(String[] args) {
