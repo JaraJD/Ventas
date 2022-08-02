@@ -1,0 +1,8 @@
+com\mycompany\sistemaventas\models\Motocicletas.class
+com\mycompany\sistemaventas\models\Proveedor.class
+com\mycompany\sistemaventas\models\Clientes.class
+com\mycompany\sistemaventas\SistemaVentas.class
+com\mycompany\sistemaventas\dao\VentasDAO.class
+com\mycompany\sistemaventas\models\Bicicletas.class
+com\mycompany\sistemaventas\models\Fabricantes.class
+com\mycompany\sistemaventas\models\Compras.class
