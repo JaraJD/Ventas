@@ -6,7 +6,7 @@ package com.mycompany.sistemaventas;
 
 import com.mycompany.sistemaventas.dao.VentasDAO;
 import com.mycompany.sistemaventas.models.Bicicletas;
-import java.util.ArrayList;
+import com.mycompany.sistemaventas.models.Motocicletas;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,10 +16,7 @@ import java.util.Scanner;
  */
 public class SistemaVentas {
 
-    List<Bicicletas> listaBicicleta;
-
     public SistemaVentas() {
-        listaBicicleta = new ArrayList<>();
         menu();
     }
 
@@ -58,9 +55,9 @@ public class SistemaVentas {
                     System.out.println("-------------------------------------------------------------------------------------------------------------\n");
                     System.out.print(">> ");
                     opcion = Integer.parseInt(sc.nextLine());
-                    if (opcion == 1) {
-                        agregar(opcion);
-                    }
+
+                    agregar(opcion);
+
                 }
                 case 2 -> {
                     System.out.println("-------------------------------------------------------------------------------------------------------------\n");
@@ -74,9 +71,9 @@ public class SistemaVentas {
                     System.out.println("-------------------------------------------------------------------------------------------------------------\n");
                     System.out.print(">> ");
                     opcion = Integer.parseInt(sc.nextLine());
-                    if (opcion == 1) {
-                        mostrar(opcion);
-                    }
+
+                    mostrar(opcion);
+
                 }
                 case 3 -> {
                     System.out.println("-------------------------------------------------------------------------------------------------------------\n");
@@ -89,9 +86,9 @@ public class SistemaVentas {
                     System.out.println("-------------------------------------------------------------------------------------------------------------\n");
                     System.out.print(">> ");
                     opcion = Integer.parseInt(sc.nextLine());
-                    if (opcion == 1) {
-                        actualizar(opcion);
-                    }
+
+                    actualizar(opcion);
+
                 }
                 case 4 -> {
                     System.out.println("-------------------------------------------------------------------------------------------------------------\n");
@@ -104,9 +101,9 @@ public class SistemaVentas {
                     System.out.println("-------------------------------------------------------------------------------------------------------------\n");
                     System.out.print(">> ");
                     opcion = Integer.parseInt(sc.nextLine());
-                    if (opcion == 1) {
-                        eliminar(opcion);
-                    }
+
+                    eliminar(opcion);
+
                 }
                 default -> {
                 }
@@ -136,14 +133,38 @@ public class SistemaVentas {
             bicicleta.setAñoConstruccion(Integer.parseInt(sc.nextLine()));
             dao.crearBicicleta(bicicleta);
         } else if (op == 2) {
-
+            Scanner sc = new Scanner(System.in);
+            VentasDAO dao = new VentasDAO();
+            Motocicletas motocicleta = new Motocicletas();
+            System.out.println("-------------------------------------------------------------------------------------------------------------\n");
+            System.out.println("***Ingreso de Datos***");
+            System.out.println("Ingrese id de la motocicleta: ");
+            System.out.print(">> ");
+            motocicleta.setId(Integer.parseInt(sc.nextLine()));
+            System.out.println("Ingrese fabricante de la motocicleta: ");
+            System.out.print(">> ");
+            motocicleta.setFabricante(sc.nextLine());
+            System.out.println("Ingrese proveedor de la motocicleta: ");
+            System.out.print(">> ");
+            motocicleta.setProveedorId(Integer.parseInt(sc.nextLine()));
+            System.out.println("Ingrese precio de la motocicleta: ");
+            System.out.print(">> ");
+            motocicleta.setPrecioUnitario(Integer.parseInt(sc.nextLine()));
+            System.out.println("Ingrese anio de construccion de la bicicleta: ");
+            System.out.print(">> ");
+            motocicleta.setAutonomia(Integer.parseInt(sc.nextLine()));
+            dao.crearMotocicleta(motocicleta);
         }
     }
 
     private void mostrar(int op) {
+        VentasDAO dao = new VentasDAO();
+
         if (op == 1) {
-            VentasDAO dao = new VentasDAO();
-            listaBicicleta = dao.listar();
+
+            List<Bicicletas> listaBicicleta;
+
+            listaBicicleta = dao.listarBici();
             System.out.println("-------------------------------------------------------------------------------------------------------------\n");
 
             for (Bicicletas bici : listaBicicleta) {
@@ -156,7 +177,23 @@ public class SistemaVentas {
             System.out.println("\n");
             System.out.println("-------------------------------------------------------------------------------------------------------------\n");
 
+        } else if (op == 2) {
+            List<Motocicletas> listaMotocicleta;
+            listaMotocicleta = dao.listarMoto();
+            System.out.println("-------------------------------------------------------------------------------------------------------------\n");
+
+            for (Motocicletas moto : listaMotocicleta) {
+                System.out.println("\n");
+                System.out.print("ID: " + moto.getId() + " - ");
+                System.out.print("\t" + "Fabricante: " + moto.getFabricante() + " - ");
+                System.out.print("\t" + "Precio: " + moto.getProveedorId() + " - ");
+                System.out.print("\t" + "Precio: " + moto.getPrecioUnitario() + " - ");
+                System.out.print("\t" + "Anio Construccion: " + moto.getAutonomia() + " - ");
+            }
+            System.out.println("\n");
+            System.out.println("-------------------------------------------------------------------------------------------------------------\n");
         }
+
     }
 
     private void actualizar(int op) {
@@ -172,13 +209,28 @@ public class SistemaVentas {
             System.out.println("Ingrese el precio actualizado de la bicicleta: ");
             System.out.print(">> ");
             bicicleta.setPrecioUnitario(Integer.parseInt(sc.nextLine()));
-            dao.actualizar(bicicleta);
+            dao.actualizarBici(bicicleta);
             System.out.println("**** Tabla bicicletas actualizada ****");
+            mostrar(op);
+        }else if (op == 2){
+            Scanner sc = new Scanner(System.in);
+            VentasDAO dao = new VentasDAO();
+            Motocicletas motocicleta = new Motocicletas();
+            System.out.println("-------------------------------------------------------------------------------------------------------------\n");
+            System.out.println("***Ingreso de Datos***");
+            System.out.println("Ingrese id de la motocicleta a actualizar: ");
+            System.out.print(">> ");
+            motocicleta.setId(Integer.parseInt(sc.nextLine()));
+            System.out.println("Ingrese el precio actualizado de la motocicleta: ");
+            System.out.print(">> ");
+            motocicleta.setPrecioUnitario(Integer.parseInt(sc.nextLine()));
+            dao.actualizarMoto(motocicleta);
+            System.out.println("**** Tabla motocicletas actualizada ****");
             mostrar(op);
         }
     }
 
-    private void eliminar(int op){
+    private void eliminar(int op) {
         if (op == 1) {
             Scanner sc = new Scanner(System.in);
             VentasDAO dao = new VentasDAO();
@@ -188,12 +240,24 @@ public class SistemaVentas {
             System.out.println("Ingrese id de la bicicleta a eliminar: ");
             System.out.print(">> ");
             bicicleta.setId(Integer.parseInt(sc.nextLine()));
-            dao.eliminar(bicicleta);
+            dao.eliminarBici(bicicleta);
             System.out.println("**** Tabla bicicletas actualizada ****");
+            mostrar(op);
+        }else if (op == 2){
+            Scanner sc = new Scanner(System.in);
+            VentasDAO dao = new VentasDAO();
+            Motocicletas motocicleta = new Motocicletas();
+            System.out.println("-------------------------------------------------------------------------------------------------------------\n");
+            System.out.println("***Ingreso de Datos***");
+            System.out.println("Ingrese id de la motocicleta a eliminar: ");
+            System.out.print(">> ");
+            motocicleta.setId(Integer.parseInt(sc.nextLine()));
+            dao.eliminarMoto(motocicleta);
+            System.out.println("**** Tabla motocicletas actualizada ****");
             mostrar(op);
         }
     }
-    
+
     public static void main(String[] args) {
         SistemaVentas sistema = new SistemaVentas();
     }

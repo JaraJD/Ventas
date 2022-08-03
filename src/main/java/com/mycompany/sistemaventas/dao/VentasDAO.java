@@ -85,7 +85,7 @@ public class VentasDAO {
 
     }
 
-    public List<Bicicletas> listar() {
+    public List<Bicicletas> listarBici() {
 
         List<Bicicletas> listado = new ArrayList<>();
 
@@ -112,7 +112,35 @@ public class VentasDAO {
         return listado;
     }
     
-    public void actualizar(Bicicletas bicicleta) {
+    public List<Motocicletas> listarMoto() {
+
+        List<Motocicletas> listado = new ArrayList<>();
+
+        try {
+            Connection conexion = conectar();
+            String sql = "SELECT * FROM `motocicletas`;";
+
+            Statement statement = conexion.createStatement();
+            ResultSet resultado = statement.executeQuery(sql);
+
+            while (resultado.next()) {
+
+                Motocicletas motocicleta = new Motocicletas();
+                motocicleta.setId(resultado.getInt("motocicleta_id"));
+                motocicleta.setFabricante(resultado.getString("motocicleta_fabricante"));
+                motocicleta.setProveedorId(resultado.getInt("proveedor_id"));
+                motocicleta.setPrecioUnitario(resultado.getInt("precio_unitario"));
+                motocicleta.setAutonomia(resultado.getInt("autonomia"));
+                listado.add(motocicleta);
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(VentasDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listado;
+    }
+    
+    public void actualizarBici(Bicicletas bicicleta) {
     
         try {
             Connection conexion = conectar();
@@ -126,9 +154,23 @@ public class VentasDAO {
         }
 
     }
+    
+    public void actualizarMoto(Motocicletas motocicleta) {
+    
+        try {
+            Connection conexion = conectar();
+            
+            String sql = "UPDATE `motocicletas` SET `precio_unitario` = '"+ motocicleta.getPrecioUnitario() +"' WHERE `motocicletas`.`motocicleta_id` = "+ motocicleta.getId() +";";
+            Statement statement = conexion.createStatement();
+            statement.execute(sql);
+            
+        } catch (Exception ex) {
+            Logger.getLogger(VentasDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
+    }
 
-    public void eliminar(Bicicletas bicicleta) {
+    public void eliminarBici(Bicicletas bicicleta) {
 
         try {
             Connection conexion = conectar();
@@ -143,4 +185,21 @@ public class VentasDAO {
         }
 
     }
+    
+    public void eliminarMoto(Motocicletas motocicleta) {
+
+        try {
+            Connection conexion = conectar();
+
+            String sql = "DELETE FROM `motocicletas` WHERE `motocicletas`.`motocicleta_id` = " + motocicleta.getId() + ";";
+
+            Statement statement = conexion.createStatement();
+            statement.execute(sql);
+
+        } catch (Exception ex) {
+            Logger.getLogger(VentasDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
 }
