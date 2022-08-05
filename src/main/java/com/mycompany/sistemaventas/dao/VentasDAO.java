@@ -9,7 +9,6 @@ import com.mycompany.sistemaventas.models.Motocicletas;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -131,6 +130,30 @@ public class VentasDAO {
                 motocicleta.setProveedorId(resultado.getInt("proveedor_id"));
                 motocicleta.setPrecioUnitario(resultado.getInt("precio_unitario"));
                 motocicleta.setAutonomia(resultado.getInt("autonomia"));
+                listado.add(motocicleta);
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(VentasDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listado;
+    }
+    
+    public List<Motocicletas> listarFabricantes() {
+
+        List<Motocicletas> listado = new ArrayList<>();
+
+        try {
+            Connection conexion = conectar();
+            String sql = "SELECT `motocicleta_fabricante` from `motocicletas` where `proveedor_id` = 101;";
+
+            Statement statement = conexion.createStatement();
+            ResultSet resultado = statement.executeQuery(sql);
+
+            while (resultado.next()) {
+
+                Motocicletas motocicleta = new Motocicletas();
+                motocicleta.setFabricante(resultado.getString("motocicleta_fabricante"));
                 listado.add(motocicleta);
             }
 

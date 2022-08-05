@@ -160,38 +160,49 @@ public class SistemaVentas {
     private void mostrar(int op) {
         VentasDAO dao = new VentasDAO();
 
-        if (op == 1) {
-
-            List<Bicicletas> listaBicicleta;
-
-            listaBicicleta = dao.listarBici();
-            System.out.println("-------------------------------------------------------------------------------------------------------------\n");
-
-            for (Bicicletas bici : listaBicicleta) {
+        switch (op) {
+            case 1 -> {
+                List<Bicicletas> listaBicicleta;
+                listaBicicleta = dao.listarBici();
+                System.out.println("-------------------------------------------------------------------------------------------------------------\n");
+                for (Bicicletas bici : listaBicicleta) {
+                    System.out.println("\n");
+                    System.out.print("ID: " + bici.getId() + " - ");
+                    System.out.print("\t" + "Fabricante: " + bici.getFabricante() + " - ");
+                    System.out.print("\t" + "Precio: " + bici.getPrecioUnitario() + " - ");
+                    System.out.print("\t" + "Anio Construccion: " + bici.getAñoConstruccion() + " - ");
+                }
                 System.out.println("\n");
-                System.out.print("ID: " + bici.getId() + " - ");
-                System.out.print("\t" + "Fabricante: " + bici.getFabricante() + " - ");
-                System.out.print("\t" + "Precio: " + bici.getPrecioUnitario() + " - ");
-                System.out.print("\t" + "Anio Construccion: " + bici.getAñoConstruccion() + " - ");
+                System.out.println("-------------------------------------------------------------------------------------------------------------\n");
             }
-            System.out.println("\n");
-            System.out.println("-------------------------------------------------------------------------------------------------------------\n");
-
-        } else if (op == 2) {
-            List<Motocicletas> listaMotocicleta;
-            listaMotocicleta = dao.listarMoto();
-            System.out.println("-------------------------------------------------------------------------------------------------------------\n");
-
-            for (Motocicletas moto : listaMotocicleta) {
+            case 2 -> {
+                List<Motocicletas> listaMotocicleta;
+                listaMotocicleta = dao.listarMoto();
+                System.out.println("-------------------------------------------------------------------------------------------------------------\n");
+                for (Motocicletas moto : listaMotocicleta) {
+                    System.out.println("\n");
+                    System.out.print("ID: " + moto.getId() + " - ");
+                    System.out.print("\t" + "Fabricante: " + moto.getFabricante() + " - ");
+                    System.out.print("\t" + "Precio: " + moto.getProveedorId() + " - ");
+                    System.out.print("\t" + "Precio: " + moto.getPrecioUnitario() + " - ");
+                    System.out.print("\t" + "Anio Construccion: " + moto.getAutonomia() + " - ");
+                }
                 System.out.println("\n");
-                System.out.print("ID: " + moto.getId() + " - ");
-                System.out.print("\t" + "Fabricante: " + moto.getFabricante() + " - ");
-                System.out.print("\t" + "Precio: " + moto.getProveedorId() + " - ");
-                System.out.print("\t" + "Precio: " + moto.getPrecioUnitario() + " - ");
-                System.out.print("\t" + "Anio Construccion: " + moto.getAutonomia() + " - ");
+                System.out.println("-------------------------------------------------------------------------------------------------------------\n");
             }
-            System.out.println("\n");
-            System.out.println("-------------------------------------------------------------------------------------------------------------\n");
+            case 3 -> {
+                List<Motocicletas> listaMotocicleta;
+                listaMotocicleta = dao.listarFabricantes();
+                System.out.println("-------------------------------------------------------------------------------------------------------------\n");
+                for (Motocicletas moto : listaMotocicleta) {
+                    System.out.println("\n");
+                    System.out.print("\t" + "Fabricante: " + moto.getFabricante() + " - ");
+                }
+                System.out.println("\n");
+                System.out.println("-------------------------------------------------------------------------------------------------------------\n");
+            }
+            default -> {
+            }
         }
 
     }
@@ -212,7 +223,7 @@ public class SistemaVentas {
             dao.actualizarBici(bicicleta);
             System.out.println("**** Tabla bicicletas actualizada ****");
             mostrar(op);
-        }else if (op == 2){
+        } else if (op == 2) {
             Scanner sc = new Scanner(System.in);
             VentasDAO dao = new VentasDAO();
             Motocicletas motocicleta = new Motocicletas();
@@ -243,7 +254,7 @@ public class SistemaVentas {
             dao.eliminarBici(bicicleta);
             System.out.println("**** Tabla bicicletas actualizada ****");
             mostrar(op);
-        }else if (op == 2){
+        } else if (op == 2) {
             Scanner sc = new Scanner(System.in);
             VentasDAO dao = new VentasDAO();
             Motocicletas motocicleta = new Motocicletas();
