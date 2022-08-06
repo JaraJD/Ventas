@@ -32,7 +32,7 @@ public class VentasDAO {
         String conexionUrl = "jdbc:mysql://" + host + ":" + puerto + "/" + baseDeDatos + "?useSSL=false";
 
         Connection conexion = null;
-
+        
         try {
             Class.forName(driver);
             conexion = DriverManager.getConnection(conexionUrl, usuario, password);
